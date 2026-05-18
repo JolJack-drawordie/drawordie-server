@@ -1,0 +1,94 @@
+{
+  "adjectives": [
+    {
+      "id": 101,
+      "name": "불타는",
+      "costMod": 1,
+      "dmgMod": 5,
+      "shdMod": 0,
+      "healMod": 0,
+      "desc": "화염의 힘을 더합니다."
+    },
+    {
+      "id": 102,
+      "name": "차가운",
+      "costMod": 1,
+      "dmgMod": 3,
+      "shdMod": 2,
+      "healMod": 0,
+      "desc": "냉기로 적을 둔하게 하고 방어력을 얻습니다."
+    },
+    {
+      "id": 103,
+      "name": "신성한",
+      "costMod": 2,
+      "dmgMod": 0,
+      "shdMod": 5,
+      "healMod": 8,
+      "desc": "빛의 가호로 치유와 방어를 강화합니다."
+    },
+    {
+      "id": 104,
+      "name": "날카로운",
+      "costMod": 0,
+      "dmgMod": 4,
+      "shdMod": 0,
+      "healMod": 0,
+      "desc": "급소를 찔러 추가 피해를 줍니다."
+    },
+    {
+      "id": 105,
+      "name": "묵직한",
+      "costMod": 2,
+      "dmgMod": 12,
+      "shdMod": 0,
+      "healMod": 0,
+      "desc": "강력한 무게로 파괴력을 극대화합니다."
+    },
+    {
+      "id": 106,
+      "name": "가벼운",
+      "costMod": -1,
+      "dmgMod": -3,
+      "shdMod": 0,
+      "healMod": 0,
+      "desc": "코스트를 줄여 빠른 대응이 가능하게 합니다."
+    },
+    {
+      "id": 107,
+      "name": "단단한",
+      "costMod": 1,
+      "dmgMod": 0,
+      "shdMod": 10,
+      "healMod": 0,
+      "desc": "방어 성능을 비약적으로 끌어올립니다."
+    },
+    {
+      "id": 108,
+      "name": "독한",
+      "costMod": 1,
+      "dmgMod": 7,
+      "shdMod": 0,
+      "healMod": -2,
+      "desc": "치명적인 독을 바르지만 사용자의 체력도 소모됩니다."
+    },
+    {
+      "id": 109,
+      "name": "신속한",
+      "costMod": 0,
+      "dmgMod": 2,
+      "shdMod": 3,
+      "healMod": 0,
+      "desc": "빠른 몸놀림으로 공방의 조화를 이룹니다."
+    },
+    {
+      "id": 110,
+      "name": "기적의",
+      "costMod": 3,
+      "dmgMod": 15,
+      "shdMod": 15,
+      "healMod": 15,
+      "desc": "모든 능력치를 폭발적으로 상승시키는 기적의 힘입니다."
+    }
+  ]
+}

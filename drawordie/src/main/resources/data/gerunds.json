@@ -1,0 +1,94 @@
+{
+  "gerunds": [
+    {
+      "id": 201,
+      "name": "베기",
+      "baseCost": 3,
+      "baseDmg": 10,
+      "baseShd": 0,
+      "baseHeal": 0,
+      "desc": "적을 베어 넘깁니다."
+    },
+    {
+      "id": 202,
+      "name": "찌르기",
+      "baseCost": 2,
+      "baseDmg": 7,
+      "baseShd": 0,
+      "baseHeal": 0,
+      "desc": "빠르게 적의 빈틈을 찌릅니다."
+    },
+    {
+      "id": 203,
+      "name": "막기",
+      "baseCost": 2,
+      "baseDmg": 0,
+      "baseShd": 12,
+      "baseHeal": 0,
+      "desc": "방패로 적의 공격을 방어합니다."
+    },
+    {
+      "id": 204,
+      "name": "치유하기",
+      "baseCost": 3,
+      "baseDmg": 0,
+      "baseShd": 0,
+      "baseHeal": 10,
+      "desc": "생명력을 회복합니다."
+    },
+    {
+      "id": 205,
+      "name": "내뿜기",
+      "baseCost": 4,
+      "baseDmg": 14,
+      "baseShd": 0,
+      "baseHeal": 0,
+      "desc": "기를 모아 전방으로 방출합니다."
+    },
+    {
+      "id": 206,
+      "name": "웅크리기",
+      "baseCost": 1,
+      "baseDmg": 0,
+      "baseShd": 6,
+      "baseHeal": 0,
+      "desc": "몸을 웅크려 피해를 최소화합니다."
+    },
+    {
+      "id": 207,
+      "name": "던지기",
+      "baseCost": 3,
+      "baseDmg": 11,
+      "baseShd": 0,
+      "baseHeal": 0,
+      "desc": "무기를 던져 원거리의 적을 맞힙니다."
+    },
+    {
+      "id": 208,
+      "name": "난타하기",
+      "baseCost": 5,
+      "baseDmg": 22,
+      "baseShd": 0,
+      "baseHeal": 0,
+      "desc": "무차별적인 공격을 퍼붓습니다."
+    },
+    {
+      "id": 209,
+      "name": "휴식하기",
+      "baseCost": 2,
+      "baseDmg": 0,
+      "baseShd": 2,
+      "baseHeal": 5,
+      "desc": "잠시 쉬며 체력과 방어도를 회복합니다."
+    },
+    {
+      "id": 210,
+      "name": "도약하기",
+      "baseCost": 3,
+      "baseDmg": 8,
+      "baseShd": 4,
+      "baseHeal": 0,
+      "desc": "높이 뛰어오르며 공격과 방어를 병행합니다."
+    }
+  ]
+}
