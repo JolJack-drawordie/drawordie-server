@@ -5,7 +5,9 @@ import lombok.*;
 
 @Entity
 @Table(name = "game_save")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class GameSave {
     @Id
     private Long userId;

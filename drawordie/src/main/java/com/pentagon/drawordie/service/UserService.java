@@ -4,7 +4,7 @@ import com.pentagon.drawordie.entity.User;
 import com.pentagon.drawordie.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-@Service // 이 클래스가 서비스(비즈니스 로직) 역할을 한다고 스프링에게 알려줌
+@Service
 public class UserService {
 
     private final UserRepository userRepository;
@@ -17,14 +17,14 @@ public class UserService {
     public User registerUser(String username, String password, String nickname) {
         User newUser = new User();
         newUser.setUsername(username);
-        newUser.setPassword(password); // (참고: 나중에는 보안을 위해 여기서 암호화를 해야 합니다!)
+        newUser.setPassword(password);
         newUser.setNickname(nickname);
 
         // DB에 저장하고, 저장된 결과를 반환
         return userRepository.save(newUser);
     }
 
-    // 🟡 로그인 검증 로직 (새로 추가된 부분!)
+    // 로그인 검증 로직
     public User loginUser(String username, String password) {
         // 1. DB에서 아이디로 유저를 찾습니다.
         User user = userRepository.findByUsername(username);
