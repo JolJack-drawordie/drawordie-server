@@ -19,6 +19,8 @@ public class CardService {
     private List<CardDto.Gerund> allGerunds = new ArrayList<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    private List<CardDto.Combination> allCombinations = new ArrayList<>();
+
     // 서버가 켜질 때 JSON 파일들을 읽어서 리스트에 채워둡니다.
     @PostConstruct
     public void loadCardData() {
@@ -32,7 +34,12 @@ public class CardService {
                     new ClassPathResource("data/gerunds.json").getInputStream(), CardDto.GerundList.class);
             allGerunds = gerList.getGerunds();
 
-            System.out.println("🟢 [CardService] 카드 데이터 로드 완료! 형용사: " + allAdjectives.size() + "개, 동명사: " + allGerunds.size() + "개");
+            //홍성구 추가
+            CardDto.CombinationList comboList = objectMapper.readValue(
+                    new ClassPathResource("data/combinations.json").getInputStream(), CardDto.CombinationList.class);
+            allCombinations = comboList.getCombinations();
+
+            System.out.println("🟢 [CardService] 카드 데이터 로드 완료! 형용사: " + allAdjectives.size() + "개, 동명사: " + allGerunds.size() + "개, 결과카드: " + allCombinations.size() + "개"); //홍성구 수정
         } catch (IOException e) {
             System.err.println("🔴 [CardService] 카드 데이터 로드 실패: " + e.getMessage());
         }
@@ -51,5 +58,11 @@ public class CardService {
                 new ArrayList<>(shuffledAdj.subList(0, 2)),
                 new ArrayList<>(shuffledGer.subList(0, 3))
         );
+    }
+
+    public CardDto.CombinationList getCombinations() {
+        List<CardDto.Combination> combinations = new ArrayList<>(allCombinations);
+
+        return new CardDto.CombinationList(combinations);
     }
 }

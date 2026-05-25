@@ -94,4 +94,7 @@ public class GameController {
     public CardDto.BattleStartHand getBattleStartCards() {
         return cardService.getRandomStartHand();
     }
+
+    @GetMapping("/load-combinations")
+    public CardDto.CombinationList getCombinations(){ return cardService.getCombinations(); } //홍성구 추가
 }
