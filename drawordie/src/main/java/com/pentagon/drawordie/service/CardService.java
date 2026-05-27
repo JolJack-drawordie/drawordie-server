@@ -1,7 +1,7 @@
 package com.pentagon.drawordie.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pentagon.drawordie.dto.CardDto; // 와일드카드(*)를 빼고 정확히 명시
+import com.pentagon.drawordie.dto.CardDto;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
@@ -38,7 +38,7 @@ public class CardService {
         }
     }
 
-    // 🔥 무작위로 형용사 2개, 동명사 3개를 뽑아서 반환하는 핵심 비즈니스 로직
+    // 무작위로 형용사 2개, 동명사 3개를 뽑아서 반환하는 핵심 비즈니스 로직
     public CardDto.BattleStartHand getRandomStartHand() {
         List<CardDto.Adjective> shuffledAdj = new ArrayList<>(allAdjectives);
         List<CardDto.Gerund> shuffledGer = new ArrayList<>(allGerunds);
