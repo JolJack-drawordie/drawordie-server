@@ -1,11 +1,13 @@
 package com.pentagon.drawordie.controller;
 
+import com.pentagon.drawordie.dto.CardDto;
 import com.pentagon.drawordie.entity.GameResult;
 import com.pentagon.drawordie.entity.GameSave;
 import com.pentagon.drawordie.entity.User;
 import com.pentagon.drawordie.repository.GameResultRepository;
 import com.pentagon.drawordie.repository.GameSaveRepository;
 import com.pentagon.drawordie.repository.UserRepository;
+import com.pentagon.drawordie.service.CardService;
 import com.pentagon.drawordie.service.GameSaveService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,16 +21,19 @@ public class GameController {
     private final GameSaveRepository gameSaveRepository;
     private final GameResultRepository gameResultRepository;
     private final UserRepository userRepository;
+    private final CardService cardService;
 
     // 모든 필요한 저장소와 서비스를 연결합니다.
     public GameController(GameSaveService gameSaveService,
                           GameSaveRepository gameSaveRepository,
                           GameResultRepository gameResultRepository,
-                          UserRepository userRepository) {
+                          UserRepository userRepository,
+                          CardService cardService) {
         this.gameSaveService = gameSaveService;
         this.gameSaveRepository = gameSaveRepository;
         this.gameResultRepository = gameResultRepository;
         this.userRepository = userRepository;
+        this.cardService = cardService;
     }
 
     // 🔵 1. 세이브 API: 현재 진행 상태 저장
@@ -83,4 +88,13 @@ public class GameController {
     public List<GameResult> getTopRankings() {
         return gameResultRepository.findAllByOrderByScoreDesc();
     }
+
+    // 5. 전투 시작 시 무작위 카드 5장(형2, 동3) 가져오기 API
+    @GetMapping("/start-cards")
+    public CardDto.BattleStartHand getBattleStartCards() {
+        return cardService.getRandomStartHand();
+    }
+
+    @GetMapping("/load-combinations")
+    public CardDto.CombinationList getCombinations(){ return cardService.getCombinations(); } //홍성구 추가
 }

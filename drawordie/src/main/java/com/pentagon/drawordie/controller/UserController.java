@@ -14,21 +14,19 @@ public class UserController {
         this.userService = userService;
     }
 
-    // 🟢 1. 서버 생존 확인용 테스트 API
+    // 서버 연결 확인용 테스트
     @GetMapping("/ping")
     public String ping() {
         return "Draw or Die 서버가 정상 작동 중입니다! (통신 성공)";
     }
 
-    // 🔵 2. 회원가입 API (유니티에서 POST 방식으로 데이터를 보낼 곳)
+    // 2. 회원가입
     @PostMapping("/register")
-    public User register(@RequestParam String username,
-                         @RequestParam String password,
-                         @RequestParam String nickname) {
+    public User register(@RequestParam String username, @RequestParam String password, @RequestParam String nickname) {
         return userService.registerUser(username, password, nickname);
     }
 
-    // 🟡 3. 로그인 API (새로 추가된 부분!)
+    // 3. 로그인
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password) {
         User user = userService.loginUser(username, password);
