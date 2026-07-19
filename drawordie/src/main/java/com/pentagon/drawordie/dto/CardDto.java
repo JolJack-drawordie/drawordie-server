@@ -45,9 +45,13 @@ public class CardDto {
 
     // JSON 전체를 파싱하기 위한 래퍼 클래스들
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class AdjectiveList { private List<Adjective> adjectives; }
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class GerundList { private List<Gerund> gerunds; }
 
     @Data

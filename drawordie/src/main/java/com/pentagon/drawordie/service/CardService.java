@@ -60,6 +60,18 @@ public class CardService {
         );
     }
 
+    public CardDto.AdjectiveList getAdjectives(){
+        List<CardDto.Adjective> adjectives = new ArrayList<>(allAdjectives);
+
+        return new CardDto.AdjectiveList(adjectives);
+    }
+
+    public CardDto.GerundList getGerunds(){
+        List<CardDto.Gerund> gerunds = new ArrayList<>(allGerunds);
+
+        return new CardDto.GerundList(gerunds);
+    }
+
     public CardDto.CombinationList getCombinations() {
         List<CardDto.Combination> combinations = new ArrayList<>(allCombinations);
 
