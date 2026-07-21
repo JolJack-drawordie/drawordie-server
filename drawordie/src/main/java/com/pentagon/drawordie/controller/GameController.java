@@ -95,6 +95,12 @@ public class GameController {
         return cardService.getRandomStartHand();
     }
 
+    @GetMapping("/load-adjectives")
+    public CardDto.AdjectiveList getAdjectives(){ return cardService.getAdjectives(); }
+
+    @GetMapping("/load-gerunds")
+    public CardDto.GerundList getGerunds(){ return cardService.getGerunds(); }
+
     @GetMapping("/load-combinations")
     public CardDto.CombinationList getCombinations(){ return cardService.getCombinations(); } //홍성구 추가
 }
