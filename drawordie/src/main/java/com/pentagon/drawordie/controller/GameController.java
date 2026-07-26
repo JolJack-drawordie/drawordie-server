@@ -103,4 +103,7 @@ public class GameController {
 
     @GetMapping("/load-combinations")
     public CardDto.CombinationList getCombinations(){ return cardService.getCombinations(); } //홍성구 추가
+
+    @GetMapping("/load-default-deck")
+    public CardDto.DefaultDeckData getDefaultDeck(){ return cardService.getDefaultDeck(); }
 }

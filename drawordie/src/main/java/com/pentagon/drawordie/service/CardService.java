@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,6 +43,26 @@ public class CardService {
             System.out.println("🟢 [CardService] 카드 데이터 로드 완료! 형용사: " + allAdjectives.size() + "개, 동명사: " + allGerunds.size() + "개, 결과카드: " + allCombinations.size() + "개"); //홍성구 수정
         } catch (IOException e) {
             System.err.println("🔴 [CardService] 카드 데이터 로드 실패: " + e.getMessage());
+        }
+    }
+
+    public CardDto.DefaultDeckData getDefaultDeck() {
+        try {
+            // 1. resources 폴더에 있는 deck.json 파일 가져오기
+            ClassPathResource resource = new ClassPathResource("data/deck.json");
+            InputStream inputStream = resource.getInputStream();
+
+            // 2. Jackson ObjectMapper로 JSON을 우리가 만든 DTO 통에 바로 매핑
+            ObjectMapper objectMapper = new ObjectMapper();
+            CardDto.DefaultDeckData deckData = objectMapper.readValue(inputStream, CardDto.DefaultDeckData.class);
+
+            // 3. 형용사/동명사 ID가 담긴 DTO 통째로 리턴
+            return deckData;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 예외 처리는 프로젝트 스타일에 맞게 수정하면 됨!
+            return null;
         }
     }
 
