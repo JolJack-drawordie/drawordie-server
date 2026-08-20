@@ -43,6 +43,12 @@ public class CardDto {
         private String description;
     }
 
+    @Data
+    public static class DefaultDeckData { // 혹은 DefaultDeckDto
+        private List<Integer> adjectiveIds;
+        private List<Integer> gerundIds;
+    }
+
     // JSON 전체를 파싱하기 위한 래퍼 클래스들
     @Data
     @NoArgsConstructor
