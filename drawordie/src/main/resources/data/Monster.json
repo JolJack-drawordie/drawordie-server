@@ -1,0 +1,22 @@
+{
+  "monsters": [
+    {
+      "id": 100,
+      "name": "Slime",
+      "hp": 30,
+      "shield": 30
+    },
+    {
+    "id": 101,
+    "name": "Rat",
+    "hp": 30,
+    "shield": 30
+    },
+    {
+    "id": 102,
+    "name": "Ghost",
+    "hp": 30,
+    "shield": 30
+    }
+  ]
+}
