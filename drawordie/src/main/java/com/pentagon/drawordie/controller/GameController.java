@@ -1,6 +1,7 @@
 package com.pentagon.drawordie.controller;
 
 import com.pentagon.drawordie.dto.CardDto;
+import com.pentagon.drawordie.dto.MonsterDto;
 import com.pentagon.drawordie.entity.GameResult;
 import com.pentagon.drawordie.entity.GameSave;
 import com.pentagon.drawordie.entity.User;
@@ -9,6 +10,7 @@ import com.pentagon.drawordie.repository.GameSaveRepository;
 import com.pentagon.drawordie.repository.UserRepository;
 import com.pentagon.drawordie.service.CardService;
 import com.pentagon.drawordie.service.GameSaveService;
+import com.pentagon.drawordie.service.MonsterService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,18 +24,21 @@ public class GameController {
     private final GameResultRepository gameResultRepository;
     private final UserRepository userRepository;
     private final CardService cardService;
+    private final MonsterService monsterService;
 
     // 모든 필요한 저장소와 서비스를 연결합니다.
     public GameController(GameSaveService gameSaveService,
                           GameSaveRepository gameSaveRepository,
                           GameResultRepository gameResultRepository,
                           UserRepository userRepository,
-                          CardService cardService) {
+                          CardService cardService,
+                          MonsterService monsterService) {
         this.gameSaveService = gameSaveService;
         this.gameSaveRepository = gameSaveRepository;
         this.gameResultRepository = gameResultRepository;
         this.userRepository = userRepository;
         this.cardService = cardService;
+        this.monsterService = monsterService;
     }
 
     // 🔵 1. 세이브 API: 현재 진행 상태 저장
@@ -106,4 +111,7 @@ public class GameController {
 
     @GetMapping("/load-default-deck")
     public CardDto.DefaultDeckData getDefaultDeck(){ return cardService.getDefaultDeck(); }
+
+    @GetMapping("/load-monsters")
+    public MonsterDto.MonsterList loadMonsters() { return monsterService.getMonsters(); }
 }
