@@ -1,5 +1,6 @@
 package com.pentagon.drawordie.controller;
 
+import com.pentagon.drawordie.dto.UserDto;
 import com.pentagon.drawordie.entity.User;
 import com.pentagon.drawordie.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +29,10 @@ public class UserController {
 
     // 3. 로그인
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
+    public UserDto.LoginResponse login(@RequestParam String username, @RequestParam String password) {
         User user = userService.loginUser(username, password);
         if (user != null) {
-            return "로그인 성공! 유저 번호: " + user.getId();
+            return new UserDto.LoginResponse(user.getId(), user.getUsername(), user.getNickname());
         } else {
             // 스프링에서 에러를 발생시켜 유니티 쪽으로 실패 메시지를 보냅니다.
             throw new RuntimeException("아이디 또는 비밀번호가 틀렸습니다.");
