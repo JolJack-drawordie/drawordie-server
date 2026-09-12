@@ -1,0 +1,66 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.6)
+
+2026-09-12T02:21:17.119+09:00  INFO 22200 --- [drawordie] [           main] c.p.drawordie.DrawordieApplication       : Starting DrawordieApplication v0.0.1-SNAPSHOT using Java 21.0.8 with PID 22200 (C:\JolJack\drawordie\drawordie\build\libs\drawordie-0.0.1-SNAPSHOT.jar started by bjh00 in C:\JolJack\drawordie\drawordie)
+2026-09-12T02:21:17.124+09:00  INFO 22200 --- [drawordie] [           main] c.p.drawordie.DrawordieApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-09-12T02:21:17.606+09:00  INFO 22200 --- [drawordie] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-12T02:21:17.660+09:00  INFO 22200 --- [drawordie] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 47 ms. Found 3 JPA repository interfaces.
+2026-09-12T02:21:18.014+09:00  INFO 22200 --- [drawordie] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-09-12T02:21:18.025+09:00  INFO 22200 --- [drawordie] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-09-12T02:21:18.025+09:00  INFO 22200 --- [drawordie] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-09-12T02:21:18.046+09:00  INFO 22200 --- [drawordie] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 878 ms
+2026-09-12T02:21:18.198+09:00  INFO 22200 --- [drawordie] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-09-12T02:21:18.236+09:00  INFO 22200 --- [drawordie] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-09-12T02:21:18.599+09:00  INFO 22200 --- [drawordie] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-12T02:21:18.625+09:00  INFO 22200 --- [drawordie] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-09-12T02:21:18.916+09:00  INFO 22200 --- [drawordie] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4c13ca07
+2026-09-12T02:21:18.916+09:00  INFO 22200 --- [drawordie] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-09-12T02:21:18.955+09:00  WARN 22200 --- [drawordie] [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-12T02:21:18.969+09:00  INFO 22200 --- [drawordie] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/drawordie?serverTimezone=Asia/Seoul&characterEncoding=UTF-8]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.43
+	Default catalog/schema: drawordie/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-12T02:21:19.582+09:00  INFO 22200 --- [drawordie] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    create table game_save (
+        user_id bigint not null,
+        current_cost integer not null,
+        current_floor integer not null,
+        current_hp integer not null,
+        current_index integer not null,
+        current_shield integer not null,
+        deck_data TEXT,
+        map_seed integer not null,
+        master_seed integer not null,
+        monster_data TEXT,
+        node_seed integer not null,
+        turn_count integer not null,
+        primary key (user_id)
+    ) engine=InnoDB
+Hibernate: 
+    alter table game_save 
+       add constraint FKht0hl1143kagiho4p5lb5xf1u 
+       foreign key (user_id) 
+       references users (id)
+2026-09-12T02:21:19.693+09:00  INFO 22200 --- [drawordie] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-12T02:21:19.747+09:00  INFO 22200 --- [drawordie] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+? [CardService] 카드 데이터 로드 완료! 형용사: 10개, 동명사: 10개, 결과카드: 100개
+? [MonsterService] 몬스터 데이터 로드 완료! 총 몬스터: 3마리
+2026-09-12T02:21:19.991+09:00  WARN 22200 --- [drawordie] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-12T02:21:20.263+09:00  INFO 22200 --- [drawordie] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-09-12T02:21:20.272+09:00  INFO 22200 --- [drawordie] [           main] c.p.drawordie.DrawordieApplication       : Started DrawordieApplication in 3.465 seconds (process running for 3.867)

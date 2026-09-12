@@ -18,7 +18,12 @@ public class GameSaveService {
     }
 
     // 🟢 게임 세이브 로직
-    public GameSave saveGame(Long userId, int hp, int cost, int mapSeed, String deckData) {
+    public GameSave saveGame(Long userId,
+                              int masterSeed, int mapSeed, int nodeSeed,
+                              int turnCount,
+                              int hp, int shield, int cost,
+                              String deckData, String monsterData,
+                              int currentFloor, int currentIndex) {
         // 1. 저장할 유저가 DB에 있는지 확인
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
@@ -28,10 +33,17 @@ public class GameSaveService {
 
         // 3. 데이터 업데이트
         gameSave.setUser(user);
-        gameSave.setCurrentHp(hp);
-        gameSave.setCurrentCost(cost);
+        gameSave.setMasterSeed(masterSeed);
         gameSave.setMapSeed(mapSeed);
-        gameSave.setDeckData(deckData); // JSON 문자열
+        gameSave.setNodeSeed(nodeSeed);
+        gameSave.setTurnCount(turnCount);
+        gameSave.setCurrentHp(hp);
+        gameSave.setCurrentShield(shield);
+        gameSave.setCurrentCost(cost);
+        gameSave.setDeckData(deckData);       // JSON 문자열
+        gameSave.setMonsterData(monsterData); // JSON 문자열 (전투 중이 아니면 null)
+        gameSave.setCurrentFloor(currentFloor);
+        gameSave.setCurrentIndex(currentIndex);
 
         // 4. DB에 저장
         return gameSaveRepository.save(gameSave);

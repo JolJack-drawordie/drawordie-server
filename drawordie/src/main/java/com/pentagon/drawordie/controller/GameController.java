@@ -44,11 +44,23 @@ public class GameController {
     // 🔵 1. 세이브 API: 현재 진행 상태 저장
     @PostMapping("/save")
     public GameSave saveProgress(@RequestParam Long userId,
-                                 @RequestParam int hp,
-                                 @RequestParam int cost,
+                                 @RequestParam int masterSeed,
                                  @RequestParam int mapSeed,
-                                 @RequestParam String deckData) {
-        return gameSaveService.saveGame(userId, hp, cost, mapSeed, deckData);
+                                 @RequestParam int nodeSeed,
+                                 @RequestParam int turnCount,
+                                 @RequestParam int hp,
+                                 @RequestParam int shield,
+                                 @RequestParam int cost,
+                                 @RequestParam String deckData,
+                                 @RequestParam(required = false) String monsterData,
+                                 @RequestParam int currentFloor,
+                                 @RequestParam int currentIndex) {
+        return gameSaveService.saveGame(userId,
+                masterSeed, mapSeed, nodeSeed,
+                turnCount,
+                hp, shield, cost,
+                deckData, monsterData,
+                currentFloor, currentIndex);
     }
 
     // 🟢 2. 로드 API: 저장된 데이터 불러오기 (유니티 시작 시 호출)
