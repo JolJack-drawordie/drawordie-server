@@ -20,7 +20,6 @@ public class GameSaveService {
     // 🟢 게임 세이브 로직
     public GameSave saveGame(Long userId,
                               int masterSeed, int mapSeed, int nodeSeed,
-                              int turnCount,
                               int hp, int shield, int cost,
                               String deckData, String monsterData,
                               int currentFloor, int currentIndex) {
@@ -36,7 +35,6 @@ public class GameSaveService {
         gameSave.setMasterSeed(masterSeed);
         gameSave.setMapSeed(mapSeed);
         gameSave.setNodeSeed(nodeSeed);
-        gameSave.setTurnCount(turnCount);
         gameSave.setCurrentHp(hp);
         gameSave.setCurrentShield(shield);
         gameSave.setCurrentCost(cost);

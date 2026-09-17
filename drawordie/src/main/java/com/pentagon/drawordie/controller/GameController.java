@@ -47,7 +47,6 @@ public class GameController {
                                  @RequestParam int masterSeed,
                                  @RequestParam int mapSeed,
                                  @RequestParam int nodeSeed,
-                                 @RequestParam int turnCount,
                                  @RequestParam int hp,
                                  @RequestParam int shield,
                                  @RequestParam int cost,
@@ -57,7 +56,6 @@ public class GameController {
                                  @RequestParam int currentIndex) {
         return gameSaveService.saveGame(userId,
                 masterSeed, mapSeed, nodeSeed,
-                turnCount,
                 hp, shield, cost,
                 deckData, monsterData,
                 currentFloor, currentIndex);

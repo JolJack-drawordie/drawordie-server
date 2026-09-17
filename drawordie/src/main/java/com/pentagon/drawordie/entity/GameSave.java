@@ -21,8 +21,6 @@ public class GameSave {
     private int mapSeed;     // 지형 복구용 시드
     private int nodeSeed;    // 현재 선택된 노드 전용 시드
 
-    private int turnCount;    // 현재 전투 턴 수
-
     private int currentHp;  //현재 체력
     private int currentShield;  //현재 쉴드량
     private int currentCost; // 기본 코스트 + 주사위 합산 결과값 저장
