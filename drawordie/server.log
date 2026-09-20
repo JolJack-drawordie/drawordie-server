@@ -64,3 +64,88 @@ Hibernate:
 2026-09-12T02:21:19.991+09:00  WARN 22200 --- [drawordie] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
 2026-09-12T02:21:20.263+09:00  INFO 22200 --- [drawordie] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
 2026-09-12T02:21:20.272+09:00  INFO 22200 --- [drawordie] [           main] c.p.drawordie.DrawordieApplication       : Started DrawordieApplication in 3.465 seconds (process running for 3.867)
+2026-09-12T02:21:42.990+09:00  INFO 22200 --- [drawordie] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-09-12T02:21:42.990+09:00  INFO 22200 --- [drawordie] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-09-12T02:21:42.993+09:00  INFO 22200 --- [drawordie] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        gs1_0.user_id,
+        gs1_0.current_cost,
+        gs1_0.current_floor,
+        gs1_0.current_hp,
+        gs1_0.current_index,
+        gs1_0.current_shield,
+        gs1_0.deck_data,
+        gs1_0.map_seed,
+        gs1_0.master_seed,
+        gs1_0.monster_data,
+        gs1_0.node_seed,
+        gs1_0.turn_count 
+    from
+        game_save gs1_0 
+    where
+        gs1_0.user_id=?
+Hibernate: 
+    insert 
+    into
+        game_save
+        (current_cost, current_floor, current_hp, current_index, current_shield, deck_data, map_seed, master_seed, monster_data, node_seed, turn_count, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.nickname,
+        u1_0.password,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        gs1_0.user_id,
+        gs1_0.current_cost,
+        gs1_0.current_floor,
+        gs1_0.current_hp,
+        gs1_0.current_index,
+        gs1_0.current_shield,
+        gs1_0.deck_data,
+        gs1_0.map_seed,
+        gs1_0.master_seed,
+        gs1_0.monster_data,
+        gs1_0.node_seed,
+        gs1_0.turn_count 
+    from
+        game_save gs1_0 
+    where
+        gs1_0.user_id=?
+Hibernate: 
+    update
+        game_save 
+    set
+        current_cost=?,
+        current_floor=?,
+        current_hp=?,
+        current_index=?,
+        current_shield=?,
+        deck_data=?,
+        map_seed=?,
+        master_seed=?,
+        monster_data=?,
+        node_seed=?,
+        turn_count=? 
+    where
+        user_id=?
