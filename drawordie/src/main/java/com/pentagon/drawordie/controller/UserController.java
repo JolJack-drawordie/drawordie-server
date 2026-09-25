@@ -27,6 +27,12 @@ public class UserController {
         return userService.registerUser(username, password, nickname);
     }
 
+    // 2-1. 아이디 중복 확인 (true = 이미 사용중인 아이디)
+    @GetMapping("/check-username")
+    public boolean checkUsername(@RequestParam String username) {
+        return userService.isUsernameTaken(username);
+    }
+
     // 3. 로그인
     @PostMapping("/login")
     public UserDto.LoginResponse login(@RequestParam String username, @RequestParam String password) {

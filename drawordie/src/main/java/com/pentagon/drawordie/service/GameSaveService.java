@@ -22,7 +22,8 @@ public class GameSaveService {
                               int masterSeed, int mapSeed, int nodeSeed,
                               int hp, int shield, int cost,
                               String deckData, String monsterData,
-                              int currentFloor, int currentIndex) {
+                              int currentFloor, int currentIndex,
+                              int currentAct, int currentNodeType) {
         // 1. 저장할 유저가 DB에 있는지 확인
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
@@ -42,6 +43,8 @@ public class GameSaveService {
         gameSave.setMonsterData(monsterData); // JSON 문자열 (전투 중이 아니면 null)
         gameSave.setCurrentFloor(currentFloor);
         gameSave.setCurrentIndex(currentIndex);
+        gameSave.setCurrentAct(currentAct);
+        gameSave.setCurrentNodeType(currentNodeType);
 
         // 4. DB에 저장
         return gameSaveRepository.save(gameSave);

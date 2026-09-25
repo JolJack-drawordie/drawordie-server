@@ -24,6 +24,11 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
+    // 아이디 중복 확인 (true = 이미 사용중)
+    public boolean isUsernameTaken(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
     // 로그인 검증 로직
     public User loginUser(String username, String password) {
         // 1. DB에서 아이디로 유저를 찾습니다.
