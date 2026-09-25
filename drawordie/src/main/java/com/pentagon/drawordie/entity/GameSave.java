@@ -33,4 +33,7 @@ public class GameSave {
 
     private int currentFloor; // 현재 노드의 층
     private int currentIndex; // 현재 노드의 인덱스
+
+    private int currentAct;      // 현재 진행 중인 Act (맵) 번호
+    private int currentNodeType; // 현재 선택한 노드의 타입 (MapNode.NodeType 순서값)
 }
