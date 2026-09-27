@@ -36,4 +36,6 @@ public class GameSave {
 
     private int currentAct;      // 현재 진행 중인 Act (맵) 번호
     private int currentNodeType; // 현재 선택한 노드의 타입 (MapNode.NodeType 순서값)
+
+    private int playTime; // 누적 플레이 타임 (초)
 }
