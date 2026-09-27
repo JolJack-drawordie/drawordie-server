@@ -55,13 +55,14 @@ public class GameController {
                                  @RequestParam int currentFloor,
                                  @RequestParam int currentIndex,
                                  @RequestParam int act,
-                                 @RequestParam int nodeType) {
+                                 @RequestParam int nodeType,
+                                 @RequestParam(defaultValue = "0") int playTime) {
         return gameSaveService.saveGame(userId,
                 masterSeed, mapSeed, nodeSeed,
                 hp, shield, cost,
                 deckData, monsterData,
                 currentFloor, currentIndex,
-                act, nodeType);
+                act, nodeType, playTime);
     }
 
     // 🟢 2. 로드 API: 저장된 데이터 불러오기 (유니티 시작 시 호출)
