@@ -2,6 +2,7 @@ package com.pentagon.drawordie.controller;
 
 import com.pentagon.drawordie.dto.CardDto;
 import com.pentagon.drawordie.dto.MonsterDto;
+import com.pentagon.drawordie.dto.RankingDto;
 import com.pentagon.drawordie.entity.GameResult;
 import com.pentagon.drawordie.entity.GameSave;
 import com.pentagon.drawordie.entity.User;
@@ -11,8 +12,13 @@ import com.pentagon.drawordie.repository.UserRepository;
 import com.pentagon.drawordie.service.CardService;
 import com.pentagon.drawordie.service.GameSaveService;
 import com.pentagon.drawordie.service.MonsterService;
+import com.pentagon.drawordie.service.RankingScore;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -66,46 +72,79 @@ public class GameController {
     }
 
     // 🟢 2. 로드 API: 저장된 데이터 불러오기 (유니티 시작 시 호출)
+    // 세이브가 없으면 404 (게임 종료 후에는 결과 등록 시 세이브가 삭제됨)
     @GetMapping("/load")
-    public GameSave loadProgress(@RequestParam Long userId) {
+    public ResponseEntity<GameSave> loadProgress(@RequestParam Long userId) {
         return gameSaveRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("저장된 게임 세이브가 없습니다."));
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     // 🔴 3. 결과 API: 게임 종료 시 랭킹 등록 및 세이브 삭제
+    // 클라이언트는 원래 값만 보내고 점수는 서버에서 계산한다. 모든 판을 기록한다.
     @PostMapping("/result")
-    public String saveResult(@RequestParam Long userId,
-                             @RequestParam int score,
-                             @RequestParam int maxStage,
-                             @RequestParam int playTime,
-                             @RequestParam boolean cleared) {
+    public RankingDto.ResultResponse saveResult(@RequestParam Long userId,
+                                                @RequestParam boolean cleared,
+                                                @RequestParam int reachedAct,
+                                                @RequestParam int reachedFloor,
+                                                @RequestParam int playTime) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
 
+        // 값 범위 검증
+        if (reachedAct < 1 || reachedAct > RankingScore.MAX_ACT
+                || reachedFloor < 0 || reachedFloor > RankingScore.MAX_FLOOR
+                || playTime < 0
+                || (cleared && reachedAct != RankingScore.MAX_ACT)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 게임 결과 값입니다.");
+        }
+
         // 결과 객체 생성 및 데이터 세팅
         GameResult result = new GameResult();
         result.setUser(user);
-        result.setScore(score);
-        result.setMaxStage(maxStage);
-        result.setPlayTime(playTime);
         result.setCleared(cleared);
+        result.setReachedAct(reachedAct);
+        result.setReachedFloor(reachedFloor);
+        result.setPlayTime(playTime);
+        result.setScore(RankingScore.calculate(cleared, reachedAct, reachedFloor, playTime));
 
         // 랭킹 테이블에 저장
-        gameResultRepository.save(result);
+        result = gameResultRepository.save(result);
 
         // 중요: 게임이 완전히 끝났으므로 해당 유저의 중간 세이브 데이터는 삭제합니다.
         if (gameSaveRepository.existsById(userId)) {
             gameSaveRepository.deleteById(userId);
         }
 
-        return "게임 결과가 성공적으로 등록되었습니다. 기존 세이브는 삭제되었습니다.";
+        long rank = gameResultRepository.countByScoreGreaterThan(result.getScore())
+                + gameResultRepository.countByScoreAndEndedAtBefore(result.getScore(), result.getEndedAt())
+                + 1;
+
+        return new RankingDto.ResultResponse(result.getId(), rank, result.getScore());
     }
 
-    // 🟡 4. 랭킹 조회 API: 전 세계 유저 점수 리스트
+    // 🟡 4. 랭킹 조회 API: 상위 100개 기록 (한 유저의 여러 판이 모두 포함됨)
     @GetMapping("/ranking")
-    public List<GameResult> getTopRankings() {
-        return gameResultRepository.findAllByOrderByScoreDesc();
+    public RankingDto.RankingList getTopRankings() {
+        List<GameResult> results = gameResultRepository.findTop100ByOrderByScoreDescEndedAtAsc();
+
+        List<RankingDto.Entry> entries = new ArrayList<>();
+        for (int i = 0; i < results.size(); i++) {
+            GameResult r = results.get(i);
+            entries.add(new RankingDto.Entry(
+                    r.getId(),
+                    i + 1,
+                    r.getUser().getNickname(),
+                    r.getScore(),
+                    r.isCleared(),
+                    r.getReachedAct(),
+                    r.getReachedFloor(),
+                    r.getPlayTime(),
+                    r.getEndedAt()));
+        }
+
+        return new RankingDto.RankingList(entries);
     }
 
     // 5. 전투 시작 시 무작위 카드 5장(형2, 동3) 가져오기 API
