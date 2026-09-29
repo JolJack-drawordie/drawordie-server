@@ -17,6 +17,24 @@
     "name": "Ghost",
     "hp": 30,
     "shield": 30
+    },
+    {
+      "id": 200,
+      "name": "Zombie",
+      "hp": 45,
+      "shield": 30
+    },
+    {
+      "id": 201,
+      "name": "Vampire",
+      "hp": 40,
+      "shield": 30
+    },
+    {
+      "id": 202,
+      "name": "Succubus",
+      "hp": 35,
+      "shield": 30
     }
   ]
 }
