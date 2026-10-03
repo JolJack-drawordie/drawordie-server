@@ -1,5 +1,6 @@
 package com.pentagon.drawordie.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
+    @JsonIgnore // 다른 엔티티(GameSave 등)와 함께 응답으로 나갈 때도 비밀번호 해시는 제외
     @Column(nullable = false)
     private String password;
 

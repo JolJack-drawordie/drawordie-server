@@ -2,6 +2,7 @@ package com.pentagon.drawordie.controller;
 
 import com.pentagon.drawordie.dto.UserDto;
 import com.pentagon.drawordie.entity.User;
+import com.pentagon.drawordie.security.JwtTokenProvider;
 import com.pentagon.drawordie.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtTokenProvider jwtTokenProvider) {
         this.userService = userService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     // 서버 연결 확인용 테스트
@@ -23,8 +26,10 @@ public class UserController {
 
     // 2. 회원가입
     @PostMapping("/register")
-    public User register(@RequestParam String username, @RequestParam String password, @RequestParam String nickname) {
-        return userService.registerUser(username, password, nickname);
+    public UserDto.RegisterResponse register(@RequestParam String username, @RequestParam String password, @RequestParam String nickname) {
+        // 엔티티를 그대로 반환하면 비밀번호 해시까지 응답에 포함되므로 DTO로 반환
+        User user = userService.registerUser(username, password, nickname);
+        return new UserDto.RegisterResponse(user.getId(), user.getUsername(), user.getNickname());
     }
 
     // 2-1. 아이디 중복 확인 (true = 이미 사용중인 아이디)
@@ -38,7 +43,9 @@ public class UserController {
     public UserDto.LoginResponse login(@RequestParam String username, @RequestParam String password) {
         User user = userService.loginUser(username, password);
         if (user != null) {
-            return new UserDto.LoginResponse(user.getId(), user.getUsername(), user.getNickname());
+            // 로그인 성공 시 JWT 발급 → 유니티는 이후 세이브/로드/결과 요청에 이 토큰을 헤더로 보냄
+            String token = jwtTokenProvider.createToken(user.getId(), user.getUsername());
+            return new UserDto.LoginResponse(user.getId(), user.getUsername(), user.getNickname(), token);
         } else {
             // 스프링에서 에러를 발생시켜 유니티 쪽으로 실패 메시지를 보냅니다.
             throw new RuntimeException("아이디 또는 비밀번호가 틀렸습니다.");
