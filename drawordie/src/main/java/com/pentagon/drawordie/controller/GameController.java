@@ -15,6 +15,7 @@ import com.pentagon.drawordie.service.MonsterService;
 import com.pentagon.drawordie.service.RankingScore;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -47,34 +48,38 @@ public class GameController {
         this.monsterService = monsterService;
     }
 
+    // 세이브/로드/결과 API의 유저 번호는 클라이언트가 보낸 값이 아니라 JWT 토큰에서 꺼냄 (다른 유저 데이터 조작 방지)
+
     // 🔵 1. 세이브 API: 현재 진행 상태 저장
     @PostMapping("/save")
-    public GameSave saveProgress(@RequestParam Long userId,
+    public GameSave saveProgress(@AuthenticationPrincipal Long userId,
                                  @RequestParam int masterSeed,
                                  @RequestParam int mapSeed,
                                  @RequestParam int nodeSeed,
                                  @RequestParam int hp,
                                  @RequestParam int shield,
                                  @RequestParam int cost,
+                                 @RequestParam(defaultValue = "0") int maxCost,
                                  @RequestParam String deckData,
                                  @RequestParam(required = false) String monsterData,
                                  @RequestParam int currentFloor,
                                  @RequestParam int currentIndex,
                                  @RequestParam int act,
                                  @RequestParam int nodeType,
+                                 @RequestParam(defaultValue = "false") boolean rested,
                                  @RequestParam(defaultValue = "0") int playTime) {
         return gameSaveService.saveGame(userId,
                 masterSeed, mapSeed, nodeSeed,
-                hp, shield, cost,
+                hp, shield, cost, maxCost,
                 deckData, monsterData,
                 currentFloor, currentIndex,
-                act, nodeType, playTime);
+                act, nodeType, rested, playTime);
     }
 
     // 🟢 2. 로드 API: 저장된 데이터 불러오기 (유니티 시작 시 호출)
     // 세이브가 없으면 404 (게임 종료 후에는 결과 등록 시 세이브가 삭제됨)
     @GetMapping("/load")
-    public ResponseEntity<GameSave> loadProgress(@RequestParam Long userId) {
+    public ResponseEntity<GameSave> loadProgress(@AuthenticationPrincipal Long userId) {
         return gameSaveRepository.findById(userId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -83,7 +88,7 @@ public class GameController {
     // 🔴 3. 결과 API: 게임 종료 시 랭킹 등록 및 세이브 삭제
     // 클라이언트는 원래 값만 보내고 점수는 서버에서 계산한다. 모든 판을 기록한다.
     @PostMapping("/result")
-    public RankingDto.ResultResponse saveResult(@RequestParam Long userId,
+    public RankingDto.ResultResponse saveResult(@AuthenticationPrincipal Long userId,
                                                 @RequestParam boolean cleared,
                                                 @RequestParam int reachedAct,
                                                 @RequestParam int reachedFloor,
