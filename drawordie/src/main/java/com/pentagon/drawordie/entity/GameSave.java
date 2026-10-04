@@ -24,6 +24,8 @@ public class GameSave {
     private int currentHp;  //현재 체력
     private int currentShield;  //현재 쉴드량
     private int currentCost; // 기본 코스트 + 주사위 합산 결과값 저장
+    private int maxCost;     // 이번 턴 최대 코스트 (에너지 게이지 최대치, 구버전 세이브는 0)
+    private boolean rested;  // 현재 휴식 노드에서 이미 휴식했는지
 
     @Column(columnDefinition = "TEXT")
     private String deckData; // 형용사+동명사 덱 정보 (JSON 문자열)

@@ -13,5 +13,15 @@ public class UserDto {
         private Long userId;
         private String username;
         private String nickname;
+        private String token; // JWT (이후 요청의 Authorization 헤더에 사용)
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class RegisterResponse {
+        private Long userId;
+        private String username;
+        private String nickname;
     }
 }
