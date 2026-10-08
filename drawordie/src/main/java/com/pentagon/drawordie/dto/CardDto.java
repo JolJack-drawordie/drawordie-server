@@ -23,6 +23,7 @@ public class CardDto {
     public static class Gerund {
         private int id;
         private String name;
+        private String category; // ATTACK / DEFENSE / HEAL (카드 UI 색상 구분용)
         private int baseCost;
         private int baseDmg;
         private int baseShd;
