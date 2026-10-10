@@ -2,21 +2,21 @@
   "monsters": [
     {
       "id": 100,
-      "name": "Slime",
+      "name": "Bat",
       "hp": 30,
       "shield": 30
     },
     {
-    "id": 101,
-    "name": "Rat",
-    "hp": 30,
-    "shield": 30
+      "id": 101,
+      "name": "Rat",
+      "hp": 30,
+      "shield": 30
     },
     {
-    "id": 102,
-    "name": "Ghost",
-    "hp": 30,
-    "shield": 30
+      "id": 102,
+      "name": "Spider",
+      "hp": 30,
+      "shield": 30
     },
     {
       "id": 200,
@@ -35,6 +35,18 @@
       "name": "Succubus",
       "hp": 35,
       "shield": 30
+    },
+    {
+      "id": 150,
+      "name": "Act1Boss",
+      "hp": 100,
+      "shield": 30
+    },
+    {
+      "id": 250,
+      "name": "Act2Boss",
+      "hp": 140,
+      "shield": 40
     }
   ]
 }
