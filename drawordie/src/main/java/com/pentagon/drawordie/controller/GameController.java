@@ -67,13 +67,14 @@ public class GameController {
                                  @RequestParam int act,
                                  @RequestParam int nodeType,
                                  @RequestParam(defaultValue = "false") boolean rested,
-                                 @RequestParam(defaultValue = "0") int playTime) {
+                                 @RequestParam(defaultValue = "0") int playTime,
+                                 @RequestParam(defaultValue = "0") int eliteKills) {
         return gameSaveService.saveGame(userId,
                 masterSeed, mapSeed, nodeSeed,
                 hp, shield, cost, maxCost,
                 deckData, monsterData,
                 currentFloor, currentIndex,
-                act, nodeType, rested, playTime);
+                act, nodeType, rested, playTime, eliteKills);
     }
 
     // 🟢 2. 로드 API: 저장된 데이터 불러오기 (유니티 시작 시 호출)
@@ -92,7 +93,8 @@ public class GameController {
                                                 @RequestParam boolean cleared,
                                                 @RequestParam int reachedAct,
                                                 @RequestParam int reachedFloor,
-                                                @RequestParam int playTime) {
+                                                @RequestParam int playTime,
+                                                @RequestParam(defaultValue = "0") int eliteKills) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
@@ -101,6 +103,7 @@ public class GameController {
         if (reachedAct < 1 || reachedAct > RankingScore.MAX_ACT
                 || reachedFloor < 0 || reachedFloor > RankingScore.MAX_FLOOR
                 || playTime < 0
+                || eliteKills < 0 || eliteKills > RankingScore.MAX_ELITE_KILLS
                 || (cleared && reachedAct != RankingScore.MAX_ACT)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 게임 결과 값입니다.");
         }
@@ -112,7 +115,8 @@ public class GameController {
         result.setReachedAct(reachedAct);
         result.setReachedFloor(reachedFloor);
         result.setPlayTime(playTime);
-        result.setScore(RankingScore.calculate(cleared, reachedAct, reachedFloor, playTime));
+        result.setEliteKills(eliteKills);
+        result.setScore(RankingScore.calculate(cleared, reachedAct, reachedFloor, eliteKills, playTime));
 
         // 랭킹 테이블에 저장
         result = gameResultRepository.save(result);
@@ -145,6 +149,7 @@ public class GameController {
                     r.isCleared(),
                     r.getReachedAct(),
                     r.getReachedFloor(),
+                    r.getEliteKills(),
                     r.getPlayTime(),
                     r.getEndedAt()));
         }

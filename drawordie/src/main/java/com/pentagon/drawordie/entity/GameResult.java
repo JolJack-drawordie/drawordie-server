@@ -22,6 +22,7 @@ public class GameResult {
     private int reachedAct;   // 도달한 Act (1 ~ 3)
     private int reachedFloor; // 도달한 층 (1부터, 맵에 진입하지 않았으면 0)
     private int playTime;     // 총 플레이 타임 (초)
+    private int eliteKills;   // 처치한 중간보스 수 (기존 기록은 0)
     private boolean cleared;  // 최종 보스 처치 여부
 
     private LocalDateTime endedAt;
