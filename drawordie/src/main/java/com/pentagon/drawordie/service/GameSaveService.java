@@ -24,7 +24,7 @@ public class GameSaveService {
                               String deckData, String monsterData,
                               int currentFloor, int currentIndex,
                               int currentAct, int currentNodeType, boolean rested,
-                              int playTime) {
+                              int playTime, int eliteKills) {
         // 1. 저장할 유저가 DB에 있는지 확인
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
@@ -49,6 +49,7 @@ public class GameSaveService {
         gameSave.setCurrentNodeType(currentNodeType);
         gameSave.setRested(rested);
         gameSave.setPlayTime(playTime);
+        gameSave.setEliteKills(eliteKills);
 
         // 4. DB에 저장
         return gameSaveRepository.save(gameSave);

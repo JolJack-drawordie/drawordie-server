@@ -20,6 +20,7 @@ public class RankingDto {
         private boolean cleared;
         private int reachedAct;
         private int reachedFloor;
+        private int eliteKills;
         private int playTime;
         private LocalDateTime endedAt;
     }

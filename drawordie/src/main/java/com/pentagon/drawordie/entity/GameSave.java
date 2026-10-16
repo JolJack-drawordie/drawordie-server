@@ -40,4 +40,5 @@ public class GameSave {
     private int currentNodeType; // 현재 선택한 노드의 타입 (MapNode.NodeType 순서값)
 
     private int playTime; // 누적 플레이 타임 (초)
+    private int eliteKills; // 이번 판에서 처치한 중간보스 수 (구버전 세이브는 0)
 }
