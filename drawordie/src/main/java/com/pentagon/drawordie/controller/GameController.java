@@ -13,11 +13,14 @@ import com.pentagon.drawordie.service.CardService;
 import com.pentagon.drawordie.service.GameSaveService;
 import com.pentagon.drawordie.service.MonsterService;
 import com.pentagon.drawordie.service.RankingScore;
+import com.pentagon.drawordie.dto.RelicDto;
+import com.pentagon.drawordie.service.RelicService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,7 @@ public class GameController {
     private final UserRepository userRepository;
     private final CardService cardService;
     private final MonsterService monsterService;
+    private final RelicService relicService;
 
     // 모든 필요한 저장소와 서비스를 연결합니다.
     public GameController(GameSaveService gameSaveService,
@@ -39,13 +43,15 @@ public class GameController {
                           GameResultRepository gameResultRepository,
                           UserRepository userRepository,
                           CardService cardService,
-                          MonsterService monsterService) {
+                          MonsterService monsterService,
+                          RelicService relicService) {
         this.gameSaveService = gameSaveService;
         this.gameSaveRepository = gameSaveRepository;
         this.gameResultRepository = gameResultRepository;
         this.userRepository = userRepository;
         this.cardService = cardService;
         this.monsterService = monsterService;
+        this.relicService = relicService;
     }
 
     // 세이브/로드/결과 API의 유저 번호는 클라이언트가 보낸 값이 아니라 JWT 토큰에서 꺼냄 (다른 유저 데이터 조작 방지)
@@ -177,4 +183,7 @@ public class GameController {
 
     @GetMapping("/load-monsters")
     public MonsterDto.MonsterList loadMonsters() { return monsterService.getMonsters(); }
+
+    @GetMapping("/load-relics")
+    public RelicDto.RelicList loadRelics() { return relicService.getRelics(); }
 }

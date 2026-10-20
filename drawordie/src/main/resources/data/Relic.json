@@ -1,0 +1,35 @@
+{
+  "relics": [
+    {
+      "id": 1,
+      "key": "iron_heart",
+      "name": "Iron Heart",
+      "description": "Increase maximum HP by 10.",
+      "effectType": "PASSIVE",
+      "trigger": "ON_ACQUIRE",
+      "condition": null,
+      "effect": {
+        "type": "MAX_HP",
+        "value": 10
+      },
+      "stackable": false
+    },
+    {
+      "id": 2,
+      "key": "lucky_dice",
+      "name": "Lucky Dice",
+      "description": "Gain 2 energy when rolling a 6.",
+      "effectType": "TRIGGERED",
+      "trigger": "ON_DICE_ROLLED",
+      "condition": {
+        "type": "DICE_EQUALS",
+        "value": 6
+      },
+      "effect": {
+        "type": "ADD_ENERGY",
+        "value": 2
+      },
+      "stackable": false
+    }
+  ]
+}
