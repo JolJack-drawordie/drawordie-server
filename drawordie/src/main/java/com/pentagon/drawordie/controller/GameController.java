@@ -63,11 +63,13 @@ public class GameController {
                                  @RequestParam int mapSeed,
                                  @RequestParam int nodeSeed,
                                  @RequestParam int hp,
+                                 @RequestParam(defaultValue = "0") int maxHp,
                                  @RequestParam int shield,
                                  @RequestParam int cost,
                                  @RequestParam(defaultValue = "0") int maxCost,
                                  @RequestParam String deckData,
                                  @RequestParam(required = false) String monsterData,
+                                 @RequestParam(required = false) String relicData,
                                  @RequestParam int currentFloor,
                                  @RequestParam int currentIndex,
                                  @RequestParam int act,
@@ -77,8 +79,8 @@ public class GameController {
                                  @RequestParam(defaultValue = "0") int eliteKills) {
         return gameSaveService.saveGame(userId,
                 masterSeed, mapSeed, nodeSeed,
-                hp, shield, cost, maxCost,
-                deckData, monsterData,
+                hp, maxHp, shield, cost, maxCost,
+                deckData, monsterData, relicData,
                 currentFloor, currentIndex,
                 act, nodeType, rested, playTime, eliteKills);
     }

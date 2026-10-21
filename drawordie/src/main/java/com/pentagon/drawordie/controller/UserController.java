@@ -4,6 +4,9 @@ import com.pentagon.drawordie.dto.UserDto;
 import com.pentagon.drawordie.entity.User;
 import com.pentagon.drawordie.security.JwtTokenProvider;
 import com.pentagon.drawordie.service.UserService;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // 이 클래스가 REST API 요청을 받는 곳임을 명시
@@ -26,16 +29,39 @@ public class UserController {
 
     // 2. 회원가입
     @PostMapping("/register")
-    public UserDto.RegisterResponse register(@RequestParam String username, @RequestParam String password, @RequestParam String nickname) {
-        // 엔티티를 그대로 반환하면 비밀번호 해시까지 응답에 포함되므로 DTO로 반환
-        User user = userService.registerUser(username, password, nickname);
-        return new UserDto.RegisterResponse(user.getId(), user.getUsername(), user.getNickname());
+    public ResponseEntity<?> register(@RequestParam String username, @RequestParam String password, @RequestParam String nickname) {
+        if (UserService.normalizeNickname(nickname).isEmpty()) {
+            return ResponseEntity.badRequest().body("NICKNAME_EMPTY");
+        }
+
+        // 중복 확인 후 가입 직전에 다른 사람이 먼저 가입했을 수 있으므로 다시 확인 (유니티는 409 본문으로 어느 쪽인지 구분)
+        if (userService.isUsernameTaken(username)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("USERNAME_DUPLICATE");
+        }
+        if (userService.isNicknameTaken(nickname)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("NICKNAME_DUPLICATE");
+        }
+
+        try {
+            // 엔티티를 그대로 반환하면 비밀번호 해시까지 응답에 포함되므로 DTO로 반환
+            User user = userService.registerUser(username, password, nickname);
+            return ResponseEntity.ok(new UserDto.RegisterResponse(user.getId(), user.getUsername(), user.getNickname()));
+        } catch (DataIntegrityViolationException e) {
+            // 위 확인과 저장 사이에 동시에 가입한 경우 DB UNIQUE 제약이 막아줌
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("DUPLICATE");
+        }
     }
 
     // 2-1. 아이디 중복 확인 (true = 이미 사용중인 아이디)
     @GetMapping("/check-username")
     public boolean checkUsername(@RequestParam String username) {
         return userService.isUsernameTaken(username);
+    }
+
+    // 2-2. 닉네임 중복 확인 (true = 이미 사용중인 닉네임)
+    @GetMapping("/check-nickname")
+    public boolean checkNickname(@RequestParam String nickname) {
+        return userService.isNicknameTaken(nickname);
     }
 
     // 3. 로그인

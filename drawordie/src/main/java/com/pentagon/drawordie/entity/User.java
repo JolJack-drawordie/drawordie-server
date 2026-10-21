@@ -22,7 +22,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false) // 랭킹에 닉네임으로 표시되므로 중복 불가
     private String nickname;
 
     @Column(updatable = false)

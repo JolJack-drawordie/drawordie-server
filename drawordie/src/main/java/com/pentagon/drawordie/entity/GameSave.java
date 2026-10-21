@@ -22,6 +22,7 @@ public class GameSave {
     private int nodeSeed;    // 현재 선택된 노드 전용 시드
 
     private int currentHp;  //현재 체력
+    private int maxHp;      // 최대 체력 (유물로 늘어난 값 포함, 구버전 세이브는 0)
     private int currentShield;  //현재 쉴드량
     private int currentCost; // 기본 코스트 + 주사위 합산 결과값 저장
     private int maxCost;     // 이번 턴 최대 코스트 (에너지 게이지 최대치, 구버전 세이브는 0)
@@ -32,6 +33,9 @@ public class GameSave {
 
     @Column(columnDefinition = "TEXT")
     private String monsterData; // 전투 중인 몬스터 정보 (JSON 문자열, 전투 중이 아니면 null)
+
+    @Column(columnDefinition = "TEXT")
+    private String relicData; // 보유한 유물 key 목록 (JSON 문자열, 구버전 세이브는 null)
 
     private int currentFloor; // 현재 노드의 층
     private int currentIndex; // 현재 노드의 인덱스

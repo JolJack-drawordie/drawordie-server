@@ -21,7 +21,7 @@ public class UserService {
         User newUser = new User();
         newUser.setUsername(username);
         newUser.setPassword(passwordEncoder.encode(password)); // 평문 대신 BCrypt 해시로 저장
-        newUser.setNickname(nickname);
+        newUser.setNickname(normalizeNickname(nickname));
 
         // DB에 저장하고, 저장된 결과를 반환
         return userRepository.save(newUser);
@@ -30,6 +30,16 @@ public class UserService {
     // 아이디 중복 확인 (true = 이미 사용중)
     public boolean isUsernameTaken(String username) {
         return userRepository.existsByUsername(username);
+    }
+
+    // 닉네임 중복 확인 (true = 이미 사용중)
+    public boolean isNicknameTaken(String nickname) {
+        return userRepository.existsByNickname(normalizeNickname(nickname));
+    }
+
+    // 닉네임 비교 기준: 앞뒤 공백만 제거 (유니티 AuthManager.NormalizeNickname과 동일)
+    public static String normalizeNickname(String nickname) {
+        return nickname == null ? "" : nickname.trim();
     }
 
     // 로그인 검증 로직

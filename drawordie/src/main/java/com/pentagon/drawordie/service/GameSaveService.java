@@ -20,8 +20,8 @@ public class GameSaveService {
     // 🟢 게임 세이브 로직
     public GameSave saveGame(Long userId,
                               int masterSeed, int mapSeed, int nodeSeed,
-                              int hp, int shield, int cost, int maxCost,
-                              String deckData, String monsterData,
+                              int hp, int maxHp, int shield, int cost, int maxCost,
+                              String deckData, String monsterData, String relicData,
                               int currentFloor, int currentIndex,
                               int currentAct, int currentNodeType, boolean rested,
                               int playTime, int eliteKills) {
@@ -38,11 +38,13 @@ public class GameSaveService {
         gameSave.setMapSeed(mapSeed);
         gameSave.setNodeSeed(nodeSeed);
         gameSave.setCurrentHp(hp);
+        gameSave.setMaxHp(maxHp);
         gameSave.setCurrentShield(shield);
         gameSave.setCurrentCost(cost);
         gameSave.setMaxCost(maxCost);
         gameSave.setDeckData(deckData);       // JSON 문자열
         gameSave.setMonsterData(monsterData); // JSON 문자열 (전투 중이 아니면 null)
+        gameSave.setRelicData(relicData);     // JSON 문자열 (보유 유물 key 목록)
         gameSave.setCurrentFloor(currentFloor);
         gameSave.setCurrentIndex(currentIndex);
         gameSave.setCurrentAct(currentAct);
