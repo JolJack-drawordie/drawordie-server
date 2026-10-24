@@ -16,6 +16,18 @@ public class MonsterDto {
         private String name;
         private int hp;
         private int shield;
+        private List<AttackData> attacks;
+        private int defend;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AttackData {
+        private String skillId;
+        private String name;
+        private int damage;
+        private int cooldown;
     }
 
     @Data
