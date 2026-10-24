@@ -1,21 +1,154 @@
 {
   "monsters": [
-    { "id": 100, "name": "Bat", "hp": 30, "shield": 30 },
-    { "id": 101, "name": "Rat", "hp": 30, "shield": 30 },
-    { "id": 102, "name": "Spider", "hp": 30, "shield": 30 },
-    { "id": 140, "name": "Act1Elite", "hp": 70, "shield": 30 },
-    { "id": 150, "name": "Act1Boss", "hp": 100, "shield": 30 },
-
-    { "id": 200, "name": "Imp", "hp": 40, "shield": 30 },
-    { "id": 201, "name": "Vampire", "hp": 40, "shield": 30 },
-    { "id": 202, "name": "Succubus", "hp": 35, "shield": 30 },
-    { "id": 240, "name": "Act2Elite", "hp": 95, "shield": 40 },
-    { "id": 250, "name": "Act2Boss", "hp": 140, "shield": 40 },
-
-    { "id": 300, "name": "SkeletonWarrior", "hp": 55, "shield": 30 },
-    { "id": 301, "name": "SkeletonMage", "hp": 45, "shield": 30 },
-    { "id": 302, "name": "SkeletonArcher", "hp": 50, "shield": 30 },
-    { "id": 340, "name": "Act3Elite", "hp": 120, "shield": 50 },
-    { "id": 350, "name": "Act3Boss", "hp": 200, "shield": 60 }
+    { "id": 100, "name": "Bat", "hp": 30, "shield": 30,
+      "attacks": [
+        {
+          "skillId": "atk_01",
+          "name": "기본공격",
+          "damage": 4
+        }
+      ],
+      "defend": 5
+    },
+    { "id": 101, "name": "Rat", "hp": 30, "shield": 30,
+      "attacks": [
+        {
+          "skillId": "atk_01",
+          "name": "기본공격",
+          "damage": 4
+        }
+      ],
+      "defend": 5
+    },
+    { "id": 102, "name": "Spider", "hp": 30, "shield": 30,
+      "attacks": [
+        {
+          "skillId": "atk_01",
+          "name": "기본공격",
+          "damage": 4
+        }
+      ],
+      "defend": 5
+    },
+    { "id": 140, "name": "Act1Elite", "hp": 70, "shield": 30,
+      "attacks": [
+        {
+          "skillId": "atk_01",
+          "name": "기본공격",
+          "damage": 4
+        }
+      ],
+      "defend": 5
+    },
+    { "id": 150, "name": "Act1Boss", "hp": 100, "shield": 30,
+      "attacks": [
+        {
+          "skillId": "atk_01",
+          "name": "기본공격",
+          "damage": 4
+        }
+      ],
+      "defend": 5
+    },
+    { "id": 200, "name": "Imp", "hp": 40, "shield": 30,
+      "attacks": [
+        {
+          "skillId": "atk_01",
+          "name": "기본공격",
+          "damage": 4
+        }
+      ],
+      "defend": 5
+    },
+    { "id": 201, "name": "Vampire", "hp": 40, "shield": 30,
+      "attacks": [
+      {
+        "skillId": "atk_01",
+        "name": "기본공격",
+        "damage": 4
+      }
+    ],
+      "defend": 5
+    },
+    { "id": 202, "name": "Succubus", "hp": 35, "shield": 30,
+      "attacks": [
+      {
+        "skillId": "atk_01",
+        "name": "기본공격",
+        "damage": 4
+      }
+    ],
+      "defend": 5
+    },
+    { "id": 240, "name": "Act2Elite", "hp": 95, "shield": 40,
+      "attacks": [
+      {
+        "skillId": "atk_01",
+        "name": "기본공격",
+        "damage": 4
+      }
+    ],
+      "defend": 5
+    },
+    { "id": 250, "name": "Act2Boss", "hp": 140, "shield": 40,
+      "attacks": [
+        {
+          "skillId": "atk_01",
+          "name": "기본공격",
+          "damage": 4
+        }
+      ],
+      "defend": 5
+    },
+    { "id": 300, "name": "SkeletonWarrior", "hp": 55, "shield": 30,
+      "attacks": [
+        {
+          "skillId": "atk_01",
+          "name": "기본공격",
+          "damage": 4
+        }
+      ],
+      "defend": 5
+    },
+    { "id": 301, "name": "SkeletonMage", "hp": 45, "shield": 30,
+      "attacks": [
+        {
+          "skillId": "atk_01",
+          "name": "기본공격",
+          "damage": 4
+        }
+      ],
+      "defend": 5
+    },
+    { "id": 302, "name": "SkeletonArcher", "hp": 50, "shield": 30,
+      "attacks": [
+        {
+          "skillId": "atk_01",
+          "name": "기본공격",
+          "damage": 4
+        }
+      ],
+      "defend": 5
+    },
+    { "id": 340, "name": "Act3Elite", "hp": 120, "shield": 50,
+      "attacks": [
+        {
+          "skillId": "atk_01",
+          "name": "기본공격",
+          "damage": 4
+        }
+      ],
+      "defend": 5
+    },
+    { "id": 350, "name": "Act3Boss", "hp": 200, "shield": 60,
+      "attacks": [
+        {
+          "skillId": "atk_01",
+          "name": "기본공격",
+          "damage": 4
+        }
+      ],
+      "defend": 5
+    }
   ]
 }
