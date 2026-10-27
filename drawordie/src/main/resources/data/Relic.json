@@ -30,6 +30,65 @@
         "value": 2
       },
       "stackable": false
+    },
+    {
+      "id": 3,
+      "key": "guardian_emblem",
+      "name": "Guardian Emblem",
+      "description": "Gain 5 shield at the start of each battle.",
+      "effectType": "TRIGGERED",
+      "trigger": "ON_BATTLE_START",
+      "condition": null,
+      "effect": {
+        "type": "ADD_SHIELD",
+        "value": 5
+      },
+      "stackable": false
+    },
+    {
+      "id": 4,
+      "key": "hourglass_of_time",
+      "name": "Hourglass of Time",
+      "description": "Gain 2 energy when rolling a 1 or 2.",
+      "effectType": "TRIGGERED",
+      "trigger": "ON_DICE_ROLLED",
+      "condition": {
+        "type": "DICE_EQUALS_OR_LESS",
+        "value": 2
+      },
+      "effect": {
+        "type": "ADD_ENERGY",
+        "value": 2
+      },
+      "stackable": false
+    },
+    {
+      "id": 5,
+      "key": "vial_of_life",
+      "name": "Vial of Life",
+      "description": "Restore 3 HP after winning a battle.",
+      "effectType": "TRIGGERED",
+      "trigger": "ON_BATTLE_WIN",
+      "condition": null,
+      "effect": {
+        "type": "HEAL",
+        "value": 3
+      },
+      "stackable": false
+    },
+    {
+      "id": 6,
+      "key": "hunters_fang",
+      "name": "Hunter's Fang",
+      "description": "The first attack card each battle deals 3 additional damage.",
+      "effectType": "TRIGGERED",
+      "trigger": "ON_FIRST_ATTACK_CARD",
+      "condition": null,
+      "effect": {
+        "type": "ADD_DAMAGE",
+        "value": 3
+      },
+      "stackable": false
     }
   ]
 }
