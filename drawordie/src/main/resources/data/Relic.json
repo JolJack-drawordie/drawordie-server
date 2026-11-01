@@ -3,8 +3,8 @@
     {
       "id": 1,
       "key": "iron_heart",
-      "name": "Iron Heart",
-      "description": "Increase maximum HP by 10.",
+      "name": "강철 심장",
+      "description": "최대 체력이 10 증가합니다.",
       "effectType": "PASSIVE",
       "trigger": "ON_ACQUIRE",
       "condition": null,
@@ -17,8 +17,8 @@
     {
       "id": 2,
       "key": "lucky_dice",
-      "name": "Lucky Dice",
-      "description": "Gain 2 energy when rolling a 6.",
+      "name": "행운의 주사위",
+      "description": "주사위에서 6이 나오면 에너지를 2 획득합니다.",
       "effectType": "TRIGGERED",
       "trigger": "ON_DICE_ROLLED",
       "condition": {
@@ -34,8 +34,8 @@
     {
       "id": 3,
       "key": "guardian_emblem",
-      "name": "Guardian Emblem",
-      "description": "Gain 5 shield at the start of each battle.",
+      "name": "수호자의 문장",
+      "description": "전투 시작 시 방어도를 5 획득합니다.",
       "effectType": "TRIGGERED",
       "trigger": "ON_BATTLE_START",
       "condition": null,
@@ -48,8 +48,8 @@
     {
       "id": 4,
       "key": "hourglass_of_time",
-      "name": "Hourglass of Time",
-      "description": "Gain 2 energy when rolling a 1 or 2.",
+      "name": "시간의 모래시계",
+      "description": "주사위에서 1 또는 2가 나오면 에너지를 2 획득합니다.",
       "effectType": "TRIGGERED",
       "trigger": "ON_DICE_ROLLED",
       "condition": {
@@ -65,8 +65,8 @@
     {
       "id": 5,
       "key": "vial_of_life",
-      "name": "Vial of Life",
-      "description": "Restore 3 HP after winning a battle.",
+      "name": "생명의 영약",
+      "description": "전투에서 승리하면 체력을 3 회복합니다.",
       "effectType": "TRIGGERED",
       "trigger": "ON_BATTLE_WIN",
       "condition": null,
@@ -79,8 +79,8 @@
     {
       "id": 6,
       "key": "hunters_fang",
-      "name": "Hunter's Fang",
-      "description": "The first attack card each battle deals 3 additional damage.",
+      "name": "사냥꾼의 송곳니",
+      "description": "전투에서 처음 사용하는 공격 카드의 피해량이 3 증가합니다.",
       "effectType": "TRIGGERED",
       "trigger": "ON_FIRST_ATTACK_CARD",
       "condition": null,
@@ -89,6 +89,36 @@
         "value": 3
       },
       "stackable": false
+    },
+
+    {
+      "id": 7,
+      "key": "scholars_magnifying_glass",
+      "name": "학자의 돋보기",
+      "description": "형용사 카드와 동명사 카드로 조합 카드를 만들 때마다 방어도를 2 획득합니다.",
+      "effectType": "TRIGGERED",
+      "trigger": "ON_CARD_COMBINATION",
+      "condition": null,
+      "effect": {
+        "type": "ADD_SHIELD",
+        "value": 2
+      },
+      "stackable": false
+    },
+    {
+      "id": 8,
+      "key": "condensed_mana_gem",
+      "name": "응축된 마력석",
+      "description": "턴 종료 시 남은 에너지 1당 방어도를 3 획득합니다.",
+      "effectType": "TRIGGERED",
+      "trigger": "ON_TURN_END",
+      "condition": null,
+      "effect": {
+        "type": "ADD_SHIELD",
+        "value": 3
+      },
+      "stackable": false
     }
+
   ]
 }
