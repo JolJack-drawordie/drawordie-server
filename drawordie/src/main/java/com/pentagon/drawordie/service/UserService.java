@@ -5,6 +5,7 @@ import com.pentagon.drawordie.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+// 회원가입 / 중복 확인 / 로그인
 @Service
 public class UserService {
 
@@ -16,42 +17,38 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // 회원가입 기능
+    // 회원가입 (비밀번호는 평문 대신 BCrypt 해시로 저장)
     public User registerUser(String username, String password, String nickname) {
         User newUser = new User();
         newUser.setUsername(username);
-        newUser.setPassword(passwordEncoder.encode(password)); // 평문 대신 BCrypt 해시로 저장
+        newUser.setPassword(passwordEncoder.encode(password));
         newUser.setNickname(normalizeNickname(nickname));
 
-        // DB에 저장하고, 저장된 결과를 반환
         return userRepository.save(newUser);
     }
 
-    // 아이디 중복 확인 (true = 이미 사용중)
+    // 아이디 중복 확인 (true = 이미 사용 중)
     public boolean isUsernameTaken(String username) {
         return userRepository.existsByUsername(username);
     }
 
-    // 닉네임 중복 확인 (true = 이미 사용중)
+    // 닉네임 중복 확인 (true = 이미 사용 중)
     public boolean isNicknameTaken(String nickname) {
         return userRepository.existsByNickname(normalizeNickname(nickname));
     }
 
-    // 닉네임 비교 기준: 앞뒤 공백만 제거 (유니티 AuthManager.NormalizeNickname과 동일)
+    // 닉네임 비교 기준: 앞뒤 공백만 제거 (유니티 AuthManager.NormalizeNickname과 같아야 함)
     public static String normalizeNickname(String nickname) {
         return nickname == null ? "" : nickname.trim();
     }
 
-    // 로그인 검증 로직
+    // 로그인: 아이디가 있고 비밀번호가 저장된 해시와 맞으면 회원, 아니면 null
     public User loginUser(String username, String password) {
-        // 1. DB에서 아이디로 유저를 찾습니다.
         User user = userRepository.findByUsername(username);
 
-        // 2. 유저가 존재하고, 입력한 비밀번호가 저장된 BCrypt 해시와 일치하면 성공!
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             return user;
         }
-        // 3. 실패하면 null을 반환합니다.
         return null;
     }
 }

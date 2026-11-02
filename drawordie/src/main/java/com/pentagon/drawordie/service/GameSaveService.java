@@ -6,6 +6,7 @@ import com.pentagon.drawordie.repository.GameSaveRepository;
 import com.pentagon.drawordie.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+// 게임 세이브 저장
 @Service
 public class GameSaveService {
 
@@ -17,7 +18,7 @@ public class GameSaveService {
         this.userRepository = userRepository;
     }
 
-    // 🟢 게임 세이브 로직
+    // 유저의 세이브를 지금 진행 상태로 덮어쓴다 (없으면 새로 만듦)
     public GameSave saveGame(Long userId,
                               int masterSeed, int mapSeed, int nodeSeed,
                               int hp, int maxHp, int shield, int cost, int maxCost,
@@ -25,14 +26,11 @@ public class GameSaveService {
                               int currentFloor, int currentIndex,
                               int currentAct, int currentNodeType, boolean rested,
                               int playTime, int eliteKills) {
-        // 1. 저장할 유저가 DB에 있는지 확인
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
 
-        // 2. 기존 세이브가 있으면 불러오고, 없으면 새로 만듦
         GameSave gameSave = gameSaveRepository.findById(userId).orElse(new GameSave());
 
-        // 3. 데이터 업데이트
         gameSave.setUser(user);
         gameSave.setMasterSeed(masterSeed);
         gameSave.setMapSeed(mapSeed);
@@ -42,9 +40,9 @@ public class GameSaveService {
         gameSave.setCurrentShield(shield);
         gameSave.setCurrentCost(cost);
         gameSave.setMaxCost(maxCost);
-        gameSave.setDeckData(deckData);       // JSON 문자열
-        gameSave.setMonsterData(monsterData); // JSON 문자열 (전투 중이 아니면 null)
-        gameSave.setRelicData(relicData);     // JSON 문자열 (보유 유물 key 목록)
+        gameSave.setDeckData(deckData);
+        gameSave.setMonsterData(monsterData);
+        gameSave.setRelicData(relicData);
         gameSave.setCurrentFloor(currentFloor);
         gameSave.setCurrentIndex(currentIndex);
         gameSave.setCurrentAct(currentAct);
@@ -53,7 +51,6 @@ public class GameSaveService {
         gameSave.setPlayTime(playTime);
         gameSave.setEliteKills(eliteKills);
 
-        // 4. DB에 저장
         return gameSaveRepository.save(gameSave);
     }
 }

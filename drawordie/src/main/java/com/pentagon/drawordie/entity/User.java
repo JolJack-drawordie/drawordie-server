@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
+// 회원
 @Entity
 @Table(name = "users")
 @Getter
@@ -15,19 +16,23 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 로그인 아이디
     @Column(unique = true, nullable = false)
     private String username;
 
-    @JsonIgnore // 다른 엔티티(GameSave 등)와 함께 응답으로 나갈 때도 비밀번호 해시는 제외
+    // BCrypt 해시. GameSave 등과 함께 응답으로 나갈 때도 빠지도록 JSON에서 제외
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
-    @Column(unique = true, nullable = false) // 랭킹에 닉네임으로 표시되므로 중복 불가
+    // 랭킹에 표시되는 이름이라 중복 불가
+    @Column(unique = true, nullable = false)
     private String nickname;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
+    // 처음 저장될 때 가입 시각을 채운다
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
