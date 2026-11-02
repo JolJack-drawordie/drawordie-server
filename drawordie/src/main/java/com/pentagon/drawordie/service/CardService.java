@@ -1,32 +1,29 @@
 package com.pentagon.drawordie.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pentagon.drawordie.dto.CardDto; // 와일드카드(*)를 빼고 정확히 명시
+import com.pentagon.drawordie.dto.CardDto;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+// 카드 데이터: 형용사 / 동명사 / 조합 카드 표와 기본 덱 (resources/data의 JSON)
 @Service
 public class CardService {
 
-    // 변수 타입에 CardDto. 를 붙여서 출처를 명확히 합니다.
-    private List<CardDto.Adjective> allAdjectives = new ArrayList<>();
-    private List<CardDto.Gerund> allGerunds = new ArrayList<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    private List<CardDto.Adjective> allAdjectives = new ArrayList<>();
+    private List<CardDto.Gerund> allGerunds = new ArrayList<>();
     private List<CardDto.Combination> allCombinations = new ArrayList<>();
 
-    // 서버가 켜질 때 JSON 파일들을 읽어서 리스트에 채워둡니다.
+    // 서버가 켜질 때 카드 표를 읽어 둔다
     @PostConstruct
     public void loadCardData() {
         try {
-            // objectMapper 안에도 CardDto.AdjectiveList.class 처럼 정확한 경로를 명시합니다.
             CardDto.AdjectiveList adjList = objectMapper.readValue(
                     new ClassPathResource("data/adjectives.json").getInputStream(), CardDto.AdjectiveList.class);
             allAdjectives = adjList.getAdjectives();
@@ -35,67 +32,37 @@ public class CardService {
                     new ClassPathResource("data/gerunds.json").getInputStream(), CardDto.GerundList.class);
             allGerunds = gerList.getGerunds();
 
-            //홍성구 추가
             CardDto.CombinationList comboList = objectMapper.readValue(
                     new ClassPathResource("data/combinations.json").getInputStream(), CardDto.CombinationList.class);
             allCombinations = comboList.getCombinations();
 
-            System.out.println("🟢 [CardService] 카드 데이터 로드 완료! 형용사: " + allAdjectives.size() + "개, 동명사: " + allGerunds.size() + "개, 결과카드: " + allCombinations.size() + "개"); //홍성구 수정
+            System.out.println("🟢 [CardService] 카드 데이터 로드 완료! 형용사: " + allAdjectives.size() + "개, 동명사: " + allGerunds.size() + "개, 결과카드: " + allCombinations.size() + "개");
         } catch (IOException e) {
             System.err.println("🔴 [CardService] 카드 데이터 로드 실패: " + e.getMessage());
         }
     }
 
+    // 새 게임 시작 덱 (형용사 / 동명사 카드 id 목록). 파일을 고치면 서버를 다시 켜지 않아도 반영되도록 요청마다 읽는다
     public CardDto.DefaultDeckData getDefaultDeck() {
         try {
-            // 1. resources 폴더에 있는 deck.json 파일 가져오기
-            ClassPathResource resource = new ClassPathResource("data/deck.json");
-            InputStream inputStream = resource.getInputStream();
-
-            // 2. Jackson ObjectMapper로 JSON을 우리가 만든 DTO 통에 바로 매핑
-            ObjectMapper objectMapper = new ObjectMapper();
-            CardDto.DefaultDeckData deckData = objectMapper.readValue(inputStream, CardDto.DefaultDeckData.class);
-
-            // 3. 형용사/동명사 ID가 담긴 DTO 통째로 리턴
-            return deckData;
-
-        } catch (Exception e) {
+            return objectMapper.readValue(
+                    new ClassPathResource("data/deck.json").getInputStream(), CardDto.DefaultDeckData.class);
+        } catch (IOException e) {
             e.printStackTrace();
-            // 예외 처리는 프로젝트 스타일에 맞게 수정하면 됨!
             return null;
         }
     }
 
-    // 🔥 무작위로 형용사 2개, 동명사 3개를 뽑아서 반환하는 핵심 비즈니스 로직
-    public CardDto.BattleStartHand getRandomStartHand() {
-        List<CardDto.Adjective> shuffledAdj = new ArrayList<>(allAdjectives);
-        List<CardDto.Gerund> shuffledGer = new ArrayList<>(allGerunds);
-
-        Collections.shuffle(shuffledAdj);
-        Collections.shuffle(shuffledGer);
-
-        // JSON 직렬화 에러를 막기 위해 잘라낸 리스트를 새 ArrayList로 안전하게 포장해 줍니다.
-        return new CardDto.BattleStartHand(
-                new ArrayList<>(shuffledAdj.subList(0, 2)),
-                new ArrayList<>(shuffledGer.subList(0, 3))
-        );
+    // 아래 조회는 원본 목록이 바뀌지 않도록 복사해서 돌려준다
+    public CardDto.AdjectiveList getAdjectives() {
+        return new CardDto.AdjectiveList(new ArrayList<>(allAdjectives));
     }
 
-    public CardDto.AdjectiveList getAdjectives(){
-        List<CardDto.Adjective> adjectives = new ArrayList<>(allAdjectives);
-
-        return new CardDto.AdjectiveList(adjectives);
-    }
-
-    public CardDto.GerundList getGerunds(){
-        List<CardDto.Gerund> gerunds = new ArrayList<>(allGerunds);
-
-        return new CardDto.GerundList(gerunds);
+    public CardDto.GerundList getGerunds() {
+        return new CardDto.GerundList(new ArrayList<>(allGerunds));
     }
 
     public CardDto.CombinationList getCombinations() {
-        List<CardDto.Combination> combinations = new ArrayList<>(allCombinations);
-
-        return new CardDto.CombinationList(combinations);
+        return new CardDto.CombinationList(new ArrayList<>(allCombinations));
     }
 }

@@ -6,8 +6,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+// 카드 데이터 (resources/data의 카드 JSON 구조 그대로 클라이언트에 전달)
 public class CardDto {
 
+    // 형용사 카드: 동명사 카드의 수치를 더하거나 빼는 수식어
     @Data
     public static class Adjective {
         private int id;
@@ -19,6 +21,7 @@ public class CardDto {
         private String desc;
     }
 
+    // 동명사 카드: 기본 행동 (공격 / 방어 / 회복)
     @Data
     public static class Gerund {
         private int id;
@@ -31,8 +34,9 @@ public class CardDto {
         private String desc;
     }
 
+    // 조합 카드: 형용사 + 동명사를 합친 결과와 최종 수치
     @Data
-    public static class Combination{ // 홍성구 추가
+    public static class Combination {
         private String combinationId;
         private int adjectiveId;
         private int gerundId;
@@ -44,13 +48,14 @@ public class CardDto {
         private String description;
     }
 
+    // 새 게임 시작 덱 (카드 id 목록, 같은 id가 여러 번 들어갈 수 있음)
     @Data
-    public static class DefaultDeckData { // 혹은 DefaultDeckDto
+    public static class DefaultDeckData {
         private List<Integer> adjectiveIds;
         private List<Integer> gerundIds;
     }
 
-    // JSON 전체를 파싱하기 위한 래퍼 클래스들
+    // 아래는 JSON 파일 전체 / 응답을 감싸는 클래스 (유니티 JsonUtility는 최상위 배열을 읽지 못함)
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -64,19 +69,7 @@ public class CardDto {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CombinationList { // 홍성구 추가
+    public static class CombinationList {
         private List<Combination> combinations;
-    }
-
-    // 🔥 최종적으로 유니티에게 넘겨줄 응답 박스 (형용사 2개 + 동명사 3개)
-    @Data
-    public static class BattleStartHand {
-        private List<Adjective> adjectives;
-        private List<Gerund> gerunds;
-
-        public BattleStartHand(List<Adjective> adjectives, List<Gerund> gerunds) {
-            this.adjectives = adjectives;
-            this.gerunds = gerunds;
-        }
     }
 }

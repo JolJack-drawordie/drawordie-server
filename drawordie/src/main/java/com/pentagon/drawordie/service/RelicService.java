@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+// 유물 데이터 (resources/data/Relic.json)
 @Service
 public class RelicService {
 
@@ -17,6 +18,7 @@ public class RelicService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    // 서버가 켜질 때 유물 표를 읽어 둔다 (읽지 못하면 서버가 시작되지 않음)
     @PostConstruct
     public void loadRelicData() {
         try {
@@ -45,6 +47,7 @@ public class RelicService {
         }
     }
 
+    // 원본 목록이 바뀌지 않도록 복사해서 돌려준다
     public RelicDto.RelicList getRelics() {
         return new RelicDto.RelicList(
                 new ArrayList<>(allRelics)

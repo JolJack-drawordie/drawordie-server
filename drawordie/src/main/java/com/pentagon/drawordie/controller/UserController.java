@@ -9,8 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController // 이 클래스가 REST API 요청을 받는 곳임을 명시
-@RequestMapping("/api/users") // 이 컨트롤러의 기본 주소 설정
+// 회원 API: 회원가입 / 아이디·닉네임 중복 확인 / 로그인
+@RestController
+@RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
@@ -21,20 +22,20 @@ public class UserController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    // 서버 연결 확인용 테스트
+    // 서버가 켜져 있는지 확인용 (브라우저로 열어 볼 때)
     @GetMapping("/ping")
     public String ping() {
         return "Draw or Die 서버가 정상 작동 중입니다! (통신 성공)";
     }
 
-    // 2. 회원가입
+    // 회원가입. 실패 이유는 본문 문자열로 알려 준다 (유니티가 409 본문으로 아이디 / 닉네임 중복을 구분)
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestParam String username, @RequestParam String password, @RequestParam String nickname) {
         if (UserService.normalizeNickname(nickname).isEmpty()) {
             return ResponseEntity.badRequest().body("NICKNAME_EMPTY");
         }
 
-        // 중복 확인 후 가입 직전에 다른 사람이 먼저 가입했을 수 있으므로 다시 확인 (유니티는 409 본문으로 어느 쪽인지 구분)
+        // 클라이언트가 중복 확인을 한 뒤 다른 사람이 먼저 가입했을 수 있으므로 다시 확인
         if (userService.isUsernameTaken(username)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("USERNAME_DUPLICATE");
         }
@@ -43,37 +44,36 @@ public class UserController {
         }
 
         try {
-            // 엔티티를 그대로 반환하면 비밀번호 해시까지 응답에 포함되므로 DTO로 반환
+            // 엔티티를 그대로 보내면 비밀번호 해시까지 나가므로 DTO로
             User user = userService.registerUser(username, password, nickname);
             return ResponseEntity.ok(new UserDto.RegisterResponse(user.getId(), user.getUsername(), user.getNickname()));
         } catch (DataIntegrityViolationException e) {
-            // 위 확인과 저장 사이에 동시에 가입한 경우 DB UNIQUE 제약이 막아줌
+            // 위 확인과 저장 사이에 동시에 가입한 경우 DB UNIQUE 제약이 막아 줌
             return ResponseEntity.status(HttpStatus.CONFLICT).body("DUPLICATE");
         }
     }
 
-    // 2-1. 아이디 중복 확인 (true = 이미 사용중인 아이디)
+    // 아이디 중복 확인 (true = 이미 사용 중)
     @GetMapping("/check-username")
     public boolean checkUsername(@RequestParam String username) {
         return userService.isUsernameTaken(username);
     }
 
-    // 2-2. 닉네임 중복 확인 (true = 이미 사용중인 닉네임)
+    // 닉네임 중복 확인 (true = 이미 사용 중)
     @GetMapping("/check-nickname")
     public boolean checkNickname(@RequestParam String nickname) {
         return userService.isNicknameTaken(nickname);
     }
 
-    // 3. 로그인
+    // 로그인: 성공하면 JWT 발급 (유니티는 이후 세이브 / 로드 / 결과 요청에 이 토큰을 헤더로 보냄)
     @PostMapping("/login")
     public UserDto.LoginResponse login(@RequestParam String username, @RequestParam String password) {
         User user = userService.loginUser(username, password);
         if (user != null) {
-            // 로그인 성공 시 JWT 발급 → 유니티는 이후 세이브/로드/결과 요청에 이 토큰을 헤더로 보냄
             String token = jwtTokenProvider.createToken(user.getId(), user.getUsername());
             return new UserDto.LoginResponse(user.getId(), user.getUsername(), user.getNickname(), token);
         } else {
-            // 스프링에서 에러를 발생시켜 유니티 쪽으로 실패 메시지를 보냅니다.
+            // 예외로 실패 응답을 보내면 유니티가 로그인 실패로 처리
             throw new RuntimeException("아이디 또는 비밀번호가 틀렸습니다.");
         }
     }

@@ -10,12 +10,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+// 몬스터 수치 / 보스 기믹 데이터 (resources/data/Monster.json)
 @Service
 public class MonsterService {
 
     private List<MonsterDto.Info> allMonsters = new ArrayList<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    // 서버가 켜질 때 몬스터 표를 읽어 둔다
     @PostConstruct
     public void loadMonsterData() {
         try {
@@ -29,8 +31,8 @@ public class MonsterService {
         }
     }
 
+    // 원본 목록이 바뀌지 않도록 복사해서 돌려준다
     public MonsterDto.MonsterList getMonsters() {
-        List<MonsterDto.Info> monsters = new ArrayList<>(allMonsters);
-        return new MonsterDto.MonsterList(monsters);
+        return new MonsterDto.MonsterList(new ArrayList<>(allMonsters));
     }
 }
