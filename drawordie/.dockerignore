@@ -1,0 +1,7 @@
+# Docker 빌드에 필요 없는 파일 (이미지 크기 / 빌드 시간 줄이기)
+build
+.gradle
+.idea
+*.iml
+server.log
+HELP.md
